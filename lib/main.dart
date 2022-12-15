@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   runApp(App());
@@ -12,9 +12,26 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent
+            //color set to transperent or set your own color
+            ));
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: PayMent(),
+        appBar: AppBar(
+          backgroundColor: Colors.grey.shade500,
+          title: const Text("Payment"),
+          centerTitle: true,
+          leading:
+              IconButton(onPressed: () {}, icon: const Icon(Icons.payment)),
+          actions: [
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.monetization_on))
+          ],
+        ),
+        body: const PayMent(),
       ),
     );
   }
@@ -43,22 +60,36 @@ class _PayMentState extends State<PayMent> {
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
-          child: Column(
-        children: [
-          TextField(
-            controller: _controller,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide:
-                        BorderSide(width: 5, color: Colors.tealAccent))),
+          child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          color: Colors.grey.shade200,
+          elevation: 1,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
-          ElevatedButton(
-              onPressed: () {
-                openCheckout();
-              },
-              child: Text("Pay Now"))
-        ],
+          child: Column(
+            children: [
+              TextField(
+                controller: _controller,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(
+                          width: 5,
+                          color: Colors.deepPurple.shade100,
+                        ))),
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.deepPurple.shade100),
+                  onPressed: () {
+                    openCheckout();
+                  },
+                  child: const Text("Pay Now"))
+            ],
+          ),
+        ),
       )),
     );
   }
